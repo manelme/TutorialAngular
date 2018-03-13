@@ -443,33 +443,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#truearchivos-de-configuraci-n">4.2. Archivos de configuración</a></li>
 <li><a href="#trueestructura-de-carpetas">4.3. Estructura de carpetas</a></li>
 <li><a href="#truearchivos-importantes">4.4. Archivos importantes</a></li>
-<li><a href="#truevistas">4.5. Vistas</a></li>
-<li><a href="#truedirectivas">4.6. Directivas</a></li>
-<li><a href="#trueservicios">4.7. Servicios</a></li>
-<li><a href="#trueinyecci-n-de-dependencias">4.8. Inyección de dependencias</a></li>
 </ul>
 </li>
-<li><a href="#truecreaci-n-de-componentes">5. Creación de componentes</a>
+<li><a href="#truecreaci-n-de-componentes">5. Creación de componentes</a></li>
+<li><a href="#truecreaci-n-de-una-aplicaci-n-de-galer-a-de-im-genes">6. Creación de una aplicación de galería de imágenes</a>
 <ul class="sectlevel2">
-<li><a href="#truea-adir-una-propiedad-al-componente">5.1. Añadir una propiedad al componente</a></li>
-<li><a href="#truecreaci-n-de-una-clase-code-hero-code">5.2. Creación de una clase <code>Hero</code></a></li>
-<li><a href="#trueedici-n-de-datos-de-componentes">5.3. Edición de datos de componentes</a></li>
+<li><a href="#trueun-primer-prototipo">6.1. Un primer prototipo</a></li>
+<li><a href="#truemejora-de-la-aplicaci-n-separaci-n-de-datos-y-presentaci-n">6.2. Mejora de la aplicación. Separación de datos y presentación</a></li>
 </ul>
 </li>
-<li><a href="#truerecorrido-de-una-lista">6. Recorrido de una lista</a></li>
-<li><a href="#truecontrol-de-eventos">7. Control de eventos</a></li>
-<li><a href="#trueuso-de-condiciones">8. Uso de condiciones</a>
-<ul class="sectlevel2">
-<li><a href="#trueaplicaci-n-condicional-de-estilos">8.1. Aplicación condicional de estilos</a></li>
-</ul>
-</li>
-<li><a href="#truemisc">9. Misc</a>
-<ul class="sectlevel2">
-<li><a href="#trueuso-de-templates-directamente">9.1. Uso de templates directamente</a></li>
-<li><a href="#trueinterpolaci-n-no-viva">9.2. Interpolación no viva</a></li>
-</ul>
-</li>
-<li><a href="#truereferencias">10. Referencias</a></li>
+<li><a href="#truereferencias">7. Referencias</a></li>
 </ul>
 </div>
 </div>
@@ -897,6 +880,14 @@ export class AppComponent {
 </tr>
 </table>
 </div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">MVC en Angular</div>
+<div class="paragraph">
+<p>En Angular, el componente juega el rol de controlador y la plantilla representa la vista.</p>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="truearchivos-de-configuraci-n"><a class="anchor" href="#truearchivos-de-configuraci-n"></a>4.2. Archivos de configuración</h3>
@@ -985,94 +976,13 @@ export class AppComponent {
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="truevistas"><a class="anchor" href="#truevistas"></a>4.5. Vistas</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Archivo HTML con atributos de Angular</p>
-</li>
-<li>
-<p>Angular crea una jerarquía de componentes y vistas por la que iremos navegando.</p>
-</li>
-</ul>
-</div>
-<div class="exampleblock">
-<div class="title">Example 3. Ejemplo de template</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>&lt;h1&gt;
-  {{title}}
-&lt;/h1&gt;</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="truedirectivas"><a class="anchor" href="#truedirectivas"></a>4.6. Directivas</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Componentes que Angular nos proporciona.</p>
-</li>
-<li>
-<p>Nos sirven para manipular la vista.</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>&lt;li *ngFor="let hero of heroes"&gt;
-  {{hero.name}}
-&lt;/li&gt;</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="trueservicios"><a class="anchor" href="#trueservicios"></a>4.7. Servicios</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Clase o método con lógica de negocio</p>
-</li>
-<li>
-<p>Permiten aislar el código del componente (cómo se presenta) del código del servicio (qué reglas de negocio tiene)</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="trueinyecci-n-de-dependencias"><a class="anchor" href="#trueinyecci-n-de-dependencias"></a>4.8. Inyección de dependencias</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Permite desacoplar la creación del objeto de su uso.</p>
-</li>
-</ul>
-</div>
-</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="truecreaci-n-de-componentes"><a class="anchor" href="#truecreaci-n-de-componentes"></a>5. Creación de componentes</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Con Angular CLI también podemos añadir nuevos componentes a la aplicación (<code>ng generate component <em>new-component</em></code>). Al crear un componente con Angular CLI ocurre lo siguiente:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Se modifica el archivo <code>src/app/app.module.ts</code> incluyendo el nuevo componente</p>
-</li>
-<li>
-<p>Se añade una carpeta a <code>src/app</code> con el nombre del nuevo componente. La nueva carpeta incluye los archivos TypeScript, HTML y CSS del nuevo componente.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Podemos usar Angular CLI para crear nuevos componentes</p>
+<p>Con Angular CLI también podemos añadir nuevos componentes a la aplicación (<code>ng generate component <em>new-component</em></code>).</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1080,20 +990,46 @@ export class AppComponent {
 </div>
 </div>
 <div class="paragraph">
-<p>Esta operación hará dos cosas:</p>
+<p>Al crear un componente con Angular CLI ocurre lo siguiente:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Añadirá un nuevo componente (<code>HeroesComponent</code>) a <code>src/app/app.module.ts</code></p>
+<p>Se modifica el archivo <code>src/app/app.module.ts</code> incluyendo el nuevo componente</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>import { AppComponent } from './app.component';</code></pre>
+<pre class="highlightjs highlight"><code>import { HeroesComponent } from './app.component'; <i class="conum" data-value="1"></i><b>(1)</b>
+...
+@NgModule({
+  declarations: [
+    ...
+    HeroesComponent, <i class="conum" data-value="2"></i><b>(2)</b>
+    ...
+  ],
+  ...
+  bootstrap: [AppComponent], <i class="conum" data-value="3"></i><b>(3)</b>
+  ...</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Importación del nuevo componente</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Declaración del nuevo componente</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Especificación del componente inicial de la aplicación</td>
+</tr>
+</table>
 </div>
 </li>
 <li>
-<p>Creará una nueva carpeta <code>src/app/heroes/</code> con 4 archivos:</p>
+<p>Se añade una carpeta a <code>src/app</code> con el nombre del nuevo componente (<code>heroes</code>). La nueva carpeta incluye los archivos TypeScript, HTML y CSS del nuevo componente:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -1113,13 +1049,50 @@ export class AppComponent {
 </li>
 </ol>
 </div>
+<div class="exampleblock">
+<div class="title">Example 3. Archivo TypeScript del componente creado</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>import { Component, OnInit } from '@angular/core';
+
+@Component({
+	selector: 'app-heroes',
+	templateUrl: './heroes.component.html',
+	styleUrls: ['./heroes.component.css']
+})
+export class HeroesComponent implements OnInit {
+
+	constructor() { }
+
+	ngOnInit() {
+	}
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>En el archivo de la clase del componente encontramos un <em>decorador</em> <code>@Component</code> que especifica los metadatos para el componente. Angular CLI genera tres propiedades de estos metadatos:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>selector</code>: Selector CSS para el componente. Es el nombre que se usar para hacer referencia al componente desde una plantilla que incluyta este componente.</p>
+<p><code>selector</code>: Selector para el componente. Es el nombre que se usar para hacer referencia al componente desde una plantilla que incluya este componente.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>El selector tiene que ser único para que pueda ser referenciado sin equívoco desde cualquier plantilla HTML. El valor predeterminado para configurar el nombre del selector es <code>app-<em>nombreComponente</em></code>. En este caso el componente <code>heroes</code> da lugar al selector <code>app-heroes</code>. No obstante, este valor puede ser modificado y asignarle otro nombre asegurando siempre que sea único.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 </li>
 <li>
 <p><code>templateUrl</code>: Archivo HTML de la plantilla del componente</p>
@@ -1145,73 +1118,108 @@ export class AppComponent {
 </li>
 </ul>
 </div>
-<div class="sect2">
-<h3 id="truea-adir-una-propiedad-al-componente"><a class="anchor" href="#truea-adir-una-propiedad-al-componente"></a>5.1. Añadir una propiedad al componente</h3>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Crear en la clase <code>/src/app/heroes/heroes.component.ts</code> una nueva propiedad con un valor ficticio (p.e. <code>hero = Superman</code>).</p>
-</li>
-<li>
-<p>Mostrar la propiedad en la plantilla del componente <code>src/app/heroes/heroes.component.html</code> (p.e. <code>{{hero}}</code>)</p>
-</li>
-<li>
-<p>Incluir el componente en la plantilla de la aplicación <code>src/app/app.component.html</code>. Realmente incluimos el selector usado para el componente definido en <code>src/app/heroes/heroes.component.ts</code> (p.e. <code>&lt;app-heroes&gt;&lt;/app-heroes&gt;</code>).</p>
-</li>
-</ol>
 </div>
 </div>
-<div class="sect2">
-<h3 id="truecreaci-n-de-una-clase-code-hero-code"><a class="anchor" href="#truecreaci-n-de-una-clase-code-hero-code"></a>5.2. Creación de una clase <code>Hero</code></h3>
-<div class="paragraph">
-<p>Veamos cómo crear una clase para los héroes de forma que puedan tener algo más que un nombre.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Crear la clase <code>src/app/hero.ts</code>. La clase tendrá dos variables de instancia <code>id</code> y <code>name</code> y un constructor para inicializarlas</p>
-<div class="exampleblock">
-<div class="title">Example 4. Clase <code>Hero</code></div>
-<div class="content">
+<div class="sect1">
+<h2 id="truecreaci-n-de-una-aplicaci-n-de-galer-a-de-im-genes"><a class="anchor" href="#truecreaci-n-de-una-aplicaci-n-de-galer-a-de-im-genes"></a>6. Creación de una aplicación de galería de imágenes</h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>export class Hero {
-	id: number;
-	name: string;
+<pre class="highlightjs highlight"><code>ng new mygallery</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>En lugar de tener que descargar todos los paquetes cada vez que quieras crear un proyecto, puedes tener un proyecto como base actualizado para replicar cada vez que tengas que crear un nuevo proyecto. Luego bastaría con hacer unos ligeros cambios para adaptarlo al nuevo proyecto. Los cambios se tendrían que hacer en:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>angular-cli.json</code>. Modificar el elemento <code>name</code> de <code>project</code>.</p>
+</li>
+<li>
+<p><code>app.e2e-spec.ts</code>. Modificar la cadena del parámetro en el método <code>describe</code></p>
+</li>
+<li>
+<p><code>package.json</code>. Modificar el elemento <code>name</code></p>
+</li>
+<li>
+<p><code>README.md</code>. Modificar el título del documento</p>
+</li>
+<li>
+<p><code>index.html</code>. Modificar el <code>&lt;title&gt;</code></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Actualización de dependencias</div>
+<div class="paragraph">
+<p>Para actualizar las dependencias de un proyecto tendremos que tener instalado previamente el comprobador de dependencias de Node.js. Lo instalaremos con</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>sudo npm install -g npm-check-updates</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Después, el comando <code>ncu</code> ejecutado sobre la carpeta del proyeto a actualizar nos devolverá las dependencias a actualizar y nos indicará cómo proceder para realizar la actualización en caso de ser necesario</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>$ ncu
 
-	constructor(id: number, name: string) {
-		this.id = id;
-		this.name = name;
-	}
-}</code></pre>
+ @types/node   ~6.0.60  →  ~9.4.7
+ jasmine-core   ~2.8.0  →  ~3.1.0
+ protractor     ~5.1.2  →  ~5.3.0
+ ts-node        ~4.1.0  →  ~5.0.1
+ typescript     ~2.5.3  →  ~2.7.2
+
+Run ncu with -u to upgrade package.json</code></pre>
 </div>
 </div>
-</div>
-</div>
-</li>
-<li>
-<p>Instanciar la clase <code>Hero</code> en <code>src/app/heroes.component.ts</code>.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>myHero = new Hero(2, "Batman");</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Mostrar los datos del componente añadiendo un binding al componente en <code>src/heroes.component.html</code></p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>&lt;p&gt;{{myHero.name}}&lt;/p&gt;</code></pre>
-</div>
-</div>
-</li>
-</ol>
 </div>
 </div>
 <div class="sect2">
-<h3 id="trueedici-n-de-datos-de-componentes"><a class="anchor" href="#trueedici-n-de-datos-de-componentes"></a>5.3. Edición de datos de componentes</h3>
+<h3 id="trueun-primer-prototipo"><a class="anchor" href="#trueun-primer-prototipo"></a>6.1. Un primer prototipo</h3>
+<div class="sect3">
+<h4 id="trueusar-bootstrap-en-el-proyecto"><a class="anchor" href="#trueusar-bootstrap-en-el-proyecto"></a>6.1.1. Usar Bootstrap en el proyecto</h4>
 <div class="paragraph">
-<p>Hasta ahora hemos presentado en el template los datos del componente. Aquí veremos cómo actualizarlos creando los que se conoce como un <em>two-way binding</em>. De esta forma los datos van de la propiedad al cuadro de texto y del cuadro de texto a la propiedad.</p>
+<p>En la <a href="https://getbootstrap.com/">web de Boostrap</a> encontraremos las indicaciones para usar Boostrap en un proyecto. Aquí utilizaremos la opción Boostrap CDN y colocaremos el enlace en <code>index.html</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>&lt;link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="truecrear-la-barra-de-navegaci-n"><a class="anchor" href="#truecrear-la-barra-de-navegaci-n"></a>6.1.2. Crear la barra de navegación</h4>
+<div class="paragraph">
+<p>En primer lugar creamos el componente para la barra de navegación.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>ng generate component navbar --flat <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>El flag <code>--flat</code> evita la creación de una carpeta <code>navbar</code> para los archivos del componente. En este caso, los archivos se situarán dentro de la carpeta <code>app</code>.</td>
+</tr>
+</table>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1221,258 +1229,374 @@ export class AppComponent {
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Haremos el <em>two-way binding</em> con la directiva Angular <code>ngModel</code>. Sin embargo, la directiva <code>ngModel</code> no está disponible de forma predeterminada. Está incluida en el módulo <code>FormsModule</code> que deberemos de importar.</p>
+<p>Recuerda que al crear el componente con Angular CLI, además de crearse los archivos del componente, se actualiza <code>app.module.ts</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>$ ng generate component navbar --flat
+  create src/app/navbar.component.css (0 bytes)
+  create src/app/navbar.component.html (25 bytes)
+  create src/app/navbar.component.spec.ts (628 bytes)
+  create src/app/navbar.component.ts (269 bytes)
+  update src/app/app.module.ts (391 bytes) <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>app.module.ts</code> ha sido actualizado para importar el nuevo componente y añadirlo a las declaraciones.</td>
+</tr>
+</table>
 </div>
 </td>
 </tr>
 </table>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Importar el módulo de formularios en <code>src/app.module.ts</code>, ya que <code>[(ngModel)]</code> no está disponible de forma predeterminada.</p>
+<div class="paragraph">
+<p>A continuación, incluimos en el archivo <code>navbar.component.html</code> el código para crear una barra de navegación disponible en la <a href="https://getbootstrap.com/docs/4.0/components/navbar/">documentación de Boostrap para crear barras de navegación</a>. Haremos unos pequeños cambios para personalizarla y que quede de esta forma. El código está disponible en el <a href="https://github.com/ualmtorres/mygallery">repositorio GitHub del proyecto</a>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/NavBar.png" alt="NavBar.png">
+</div>
+</div>
+<div class="paragraph">
+<p>Por último, incluiremos el componente de la barra creada en su componente padre. Para ello, modificamos el archivo <code>app-component.html</code> para incluir el selector de la barra de navegación reemplazando su contenido por</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>import { FormsModule } from '@angular/forms'; <i class="conum" data-value="1"></i><b>(1)</b>
+<pre class="highlightjs highlight"><code>&lt;app-navbar&gt;&lt;/app-navbar&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="trueel-componente-de-la-galer-a"><a class="anchor" href="#trueel-componente-de-la-galer-a"></a>6.1.3. El componente de la galería</h4>
+<div class="paragraph">
+<p>Crearemos un componente para la galería con Angular CLI.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>ng generate component gallery</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Como ya sabemos, se creará una carpeta con los archivos del componente y se actualizará <code>app.module.ts</code></p>
+</div>
+<div class="paragraph">
+<p>Por ahora, la galería mostrará una serie estática de imágenes. Añadiremos el código siguiente a <code>gallery.component.html</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>&lt;div class="container"&gt;
+  &lt;div class="row"&gt;
+    &lt;a href = "#"&gt;
+      &lt;div class = "col-md-3 col-sm-4 col-xs-6"&gt;&lt;img class="img-responsive" src="https://images.pexels.com/photos/9051/pexels-photo.jpg?h=150" /&gt;&lt;/div&gt;
+    &lt;/a&gt;
+    &lt;a href = "#"&gt;
+      &lt;div class = "col-md-3 col-sm-4 col-xs-6"&gt;&lt;img class="img-responsive" src="https://images.pexels.com/photos/23475/pexels-photo.jpg?h=150" /&gt;&lt;/div&gt;
+    &lt;/a&gt;
+    &lt;a href = "#"&gt;
+      &lt;div class = "col-md-3 col-sm-4 col-xs-6"&gt;&lt;img class="img-responsive" src="https://images.pexels.com/photos/9050/pexels-photo.jpg?h=150" /&gt;&lt;/div&gt;
+    &lt;/a&gt;
+    &lt;a href = "#"&gt;
+      &lt;div class = "col-md-3 col-sm-4 col-xs-6"&gt;&lt;img class="img-responsive" src="https://images.pexels.com/photos/754998/pexels-photo-754998.jpeg?h=150" /&gt;&lt;/div&gt;
+    &lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Y definiremos estos estilos en <code>gallery.component.css</code> para el componente definido</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>img {
+    box-shadow: 0px 1px 6px 1px gray;
+    margin-bottom: 30px;
+}
+img:hover {
+    -webkit-filter: grayscale(1);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Por último, añadimos el tag del componente gallery <code>&lt;app-gallery&gt;</code> a su componente padre <code>app.component.html</code> para mostrar la galería</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>&lt;app-navbar&gt;&lt;/app-navbar&gt;
+&lt;app-gallery&gt;&lt;/app-gallery&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>El resultado debería ser algo similar a este:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./images/MyGallery.png" alt="MyGallery.png"></span></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="truemejora-de-la-aplicaci-n-separaci-n-de-datos-y-presentaci-n"><a class="anchor" href="#truemejora-de-la-aplicaci-n-separaci-n-de-datos-y-presentaci-n"></a>6.2. Mejora de la aplicación. Separación de datos y presentación</h3>
+<div class="paragraph">
+<p>Hasta ahora, la galería de imágenes está almacenando de forma conjunta los datos de las imágenes y su presentación. En este apartado estructuraremos la galería con esta relación jerárquica de componentes.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>gallery
+|_image-list
+  |_image</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A continuación crearemos un subcomponente de <code>gallery</code> al que denominaremos <code>image-list</code>. Lo denominamos subcomponente porque lo creareamos dentro de <code>gallery</code> y no dentro de <code>app</code>.</p>
+</div>
+<div class="paragraph">
+<p>También crearemos un subcomponente de <code>image-list</code> al que denominaremos <code>image</code>. En este caso usaremos el parámetro <code>--flat</code> para indicar a Angular CLI que no cree una carpeta aparte para el componente, sino que cree los archivos en la misma ruta desde la que se está creando.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>cd src/app/gallery
+ng generate component image-list
 
-...
+cd image-list
+ng generate component image --flat</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>La estrucuctura de archivos de <code>gallery</code> deberá ser así:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>gallery/
+├── gallery.component.css
+├── gallery.component.html
+├── gallery.component.spec.ts
+├── gallery.component.ts
+└── image-list
+    ├── image.component.css
+    ├── image.component.html
+    ├── image.component.spec.ts
+    ├── image.component.ts
+    ├── image-list.component.css
+    ├── image-list.component.html
+    ├── image-list.component.spec.ts
+    └── image-list.component.ts</pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>El haber creado los archivos del componente <code>image</code> dentro del mismo directorio que <code>image-list</code> no contraviene el que los componentes tengan luego en la presentación (HTML) la relación jerárquica <code>image-list</code> <em>está formado por</em> <code>image</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>El código está disponible en el <a href="https://github.com/ualmtorres/mygallerymodel">repositorio GitHub del proyecto</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="truecreaci-n-del-modelo"><a class="anchor" href="#truecreaci-n-del-modelo"></a>6.2.1. Creación del modelo</h4>
+<div class="paragraph">
+<p>Pese a no ser obligatorio, es conveniente que los modelos de una aplicación estén agrupados dentro de un mismo directorio. En nuestro caso, crearemos un directorio <code>models</code> dentro del directorio <code>app</code>. Desde <code>models</code> crearemos una clase <code>image</code> con Angular CLI. Esto creará un archivo TypeScript (<code>image.ts</code>) para la clase dentro de <code>models</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>ng generate class image</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Dentro de la clase definiremos su constructor</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>constructor(public imageURL: string, public author: string, public website: string) {}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>El componente <code>image</code> corresponde al <em>Modelo</em> en el patrón MVC</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="truerefactorizaci-n-de-code-gallery-component-html-code"><a class="anchor" href="#truerefactorizaci-n-de-code-gallery-component-html-code"></a>6.2.2. Refactorización de <code>gallery.component.html</code></h4>
+<div class="paragraph">
+<p>El código de <code>gallery.component.html</code> será sustituido por el selector del componente <code>image-list</code>. Su código ahora se distribuirá entre las plantillas y las clases de los componentes <code>image-list</code> e `image.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 4. <code>gallery.component.html</code> refactorizado</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>&lt;app-image-list&gt;&lt;/app-image-list&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="trueseparaci-n-de-los-datos-de-la-presentaci-n-mediante-code-image-list-component-ts-code"><a class="anchor" href="#trueseparaci-n-de-los-datos-de-la-presentaci-n-mediante-code-image-list-component-ts-code"></a>6.2.3. Separación de los datos de la presentación mediante <code>image-list.component.ts</code></h4>
+<div class="paragraph">
+<p>Este componente está dedicado a inicializar los valores de la lista de imágenes a mostrar (URLs de las imágenes, autores, &#8230;&#8203;)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>import { Component, OnInit } from '@angular/core';
+import { Image } from '../../models/image'; <i class="conum" data-value="1"></i><b>(1)</b>
 
-@NgModule({
-  ...
-  imports: [
-    BrowserModule,
-    ...
-    FormsModule <i class="conum" data-value="2"></i><b>(2)</b>
-  ],
-  ...
-})</code></pre>
+@Component({
+  selector: 'app-image-list',
+  templateUrl: './image-list.component.html',
+  styleUrls: ['./image-list.component.css']
+})
+export class ImageListComponent implements OnInit {
+  images: Image[] = [ <i class="conum" data-value="2"></i><b>(2)</b>
+    {'imageURL':'https://images.pexels.com/photos/9051/pexels-photo.jpg?h=150', 'author':'Oliur Rahman', 'website':'http://photos.oliur.com'},
+    {'imageURL':'https://images.pexels.com/photos/23475/pexels-photo.jpg?h=150', 'author':'Donald Tong', 'website':''},
+    {'imageURL':'https://images.pexels.com/photos/9050/pexels-photo.jpg?h=150', 'author':'Pixabay', 'website':'http://pixabay.com'},
+    {'imageURL':'https://images.pexels.com/photos/754998/pexels-photo-754998.jpeg?h=150', 'author':'Tarun Netha Amballa', 'website':''}
+  ];
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}</code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Añadir esta línea al principio</td>
+<td>Importación de a clase imagen para poder crear un array de objetos <code>image</code></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Añadir <code>FormsModule</code> a la lista de importaciones</td>
+<td>Creación del array de objetos <code>image</code>. Los objetos <code>image</code> se pueden crear en JSON o con <code>new Image(<em>param1</em>, <em>param2</em>, &#8230;&#8203;)</code></td>
 </tr>
 </table>
 </div>
-</li>
-<li>
-<p>Añadir el cuadro de texto a la plantilla <code>src/app/heroes/heroes.component.html</code></p>
-</li>
-</ol>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>&lt;input [(ngModel)]="myHero.name"&gt;</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="truerecorrido-de-una-lista"><a class="anchor" href="#truerecorrido-de-una-lista"></a>6. Recorrido de una lista</h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="truepresentaci-n-de-la-lista-de-im-genes"><a class="anchor" href="#truepresentaci-n-de-la-lista-de-im-genes"></a>6.2.4. Presentación de la lista de imágenes</h4>
 <div class="paragraph">
-<p><code>*ngFor</code> es la directiva de repetición de Angular. Rpetirá el elemento en el que esté definida para cada elemento de la lista. El fragmento siguiente crea tantos elementos <code>&lt;li&gt;</code> como elementos tenga la lista <code>heroes</code>.</p>
+<p>Para presentar la lista de imágenes nos valdremos de la directiva <code>* ngFor</code></p>
 </div>
-<div class="listingblock">
+<div class="sidebarblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>&lt;li *ngFor="let hero of heroes"&gt;</code></pre>
-</div>
-</div>
+<div class="title">Directiva * ngFor</div>
 <div class="paragraph">
-<p>Para este ejemplo creremos un archivo <code>mock-heroes</code> con un array de héroes para recorrerlo con <code>*ngFor</code>.</p>
-</div>
-<div class="exampleblock">
-<div class="title">Example 5. Archivo con datos de ejemplo de heroes (<code>src/app/mock-heroes.ts</code>)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>import { Hero } from './hero';
-
-export const HEROES: Hero[] = [ <i class="conum" data-value="1"></i><b>(1)</b>
-  { id: 11, name: 'Mr. Nice' },
-  { id: 12, name: 'Narco' },
-  { id: 13, name: 'Bombasto' },
-  { id: 14, name: 'Celeritas' },
-  { id: 15, name: 'Magneta' },
-  { id: 16, name: 'RubberMan' },
-  { id: 17, name: 'Dynama' },
-  { id: 18, name: 'Dr IQ' },
-  { id: 19, name: 'Magma' },
-  { id: 20, name: 'Tornado' }
-];</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><code>HEROES</code> es un array de objetos <code>Hero</code>.</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Después actualizamos el componente <code>src/heroes/heroes.component</code> para inicializar una variable instancia con la <code>HEROES</code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>heroes = HEROES;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Por último, hay que actualizar la vista del componente para recorrer la lista.</p>
+<p>La directiva <code>ngFor</code> instancia una plantilla una vez por cada elemento de un iterable.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code>&lt;ul&gt;
-  &lt;li *ngFor="let h of heroes"&gt; <i class="conum" data-value="1"></i><b>(1)</b>
-    {{h.name}} <i class="conum" data-value="2"></i><b>(2)</b>
-  &lt;/li&gt;
+&lt;li *ngFor="let i of [1,2,3]"&gt;Elemento {{i}}&lt;/li&gt;
 &lt;/ul&gt;</code></pre>
 </div>
 </div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Repetir el elemento <code>&lt;li&gt;</code> para cada elemento de la lista <code>heroes</code>.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Imprime el objeto de la iteración actual.
-== Typescript</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="truecontrol-de-eventos"><a class="anchor" href="#truecontrol-de-eventos"></a>7. Control de eventos</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>Nuestro nuevo objetivo es mostrar los detalles al seleccionar un héroe de la lista.</p>
+<p>devuelve</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>Añadir en el template <code>src/heroes/heroes.component.html</code> un binding de control de eventos a cada héroe de la lista</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>&lt;li *ngFor="let h of heroes" (click)="onSelect(h)"&gt; <i class="conum" data-value="1"></i><b>(1)</b>
-  {{h.name}}
-&lt;/li&gt;</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><code>onSelect()</code> es un método de <code>src/heroes/heroes.component.ts</code> que aún no está definido. Este método recibe el objeto <code>Hero</code> sobre el que se ha hecho clic.</td>
-</tr>
-</table>
-</div>
+<p>Elemento 1</p>
 </li>
 <li>
-<p>Crear el controlador de evento en <code>src/heroes/heroes.component.ts</code>.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>	selectedHero: Hero;
-
-	...
-
-	onSelect(hero: Hero) {
-		this.selectedHero = hero;
-	}</code></pre>
-</div>
-</div>
+<p>Elemento 2</p>
 </li>
 <li>
-<p>Actualizar la plantilla <code>src/heroes/heroes.component.html</code>.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>&lt;h2&gt;Detalles de {{selectedHero.name}}&lt;/h2&gt;
-&lt;label&gt;Nombre: &lt;input [(ngModel)]="selectedHero.name"&gt;&lt;/label&gt;</code></pre>
-</div>
-</div>
+<p>Elemento 3</p>
 </li>
-</ol>
+</ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="trueuso-de-condiciones"><a class="anchor" href="#trueuso-de-condiciones"></a>8. Uso de condiciones</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>El problema que teníamos con el planteamiento anterior es que estamos pidiendo mostrar el héroe seleccionado, pero al cargar la página inicialmente no hay héroe seleccionado, por lo que la consola informa de un error. La directiva <code>*ngIf</code> nos ofrece una solución y mostraremos los datos del héroe seleccionado si existe.</p>
 </div>
 <div class="paragraph">
-<p>Ahora, actualizaremos la plantilla <code>src/heroes/heroes.component.html</code> con el código siguiente:</p>
+<p>La plantilla de la lista de imaǵenes iterará sobre el array <code>images</code> del componente. Además, interactuará con el componente <code>image</code> para pasarle en cada iteración la imagen a presentar. Para indicar que se quiere pasar un objeto al componente <code>app-image</code>, el objeto se encerrará entre corchetes (p.e <code>[image]</code>).</p>
 </div>
+<div class="paragraph">
+<p>Consulta la <a href="https://angular.io/guide/component-interaction">documentación oficial de Angular</a> para saber más de la interacción de componentes.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 5. <code>image-list.component.html</code></div>
+<div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>&lt;div *ngIf="selectedHero"&gt;
-	&lt;h2&gt;Detalles de {{selectedHero.name}}&lt;/h2&gt;
-	&lt;label&gt;Nombre: &lt;input [(ngModel)]="selectedHero.name"&gt;&lt;/label&gt;
+<pre class="highlightjs highlight"><code>&lt;div class="container"&gt;
+  &lt;div class="row"&gt;
+    &lt;app-image *ngFor="let image of images" [image]="image"&gt;&lt;/app-image&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+  &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 </div>
 </div>
-<div class="sect2">
-<h3 id="trueaplicaci-n-condicional-de-estilos"><a class="anchor" href="#trueaplicaci-n-condicional-de-estilos"></a>8.1. Aplicación condicional de estilos</h3>
-<div class="paragraph">
-<p>También es posible aplicar estilos en función de una condición. El ejemplo lo podemos tener en la aplicación de un estilo al héroe seleccionado. Para ello, comprobaremos si es el héroe seleccionado.</p>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>[image]</code> indica una interacción con el componente <code>&lt;app-image&gt;</code>. En <code>&lt;app-image&gt;</code> se recibirá el objeto en <code>[image]</code>. <code>[image]</code> toma en cada iteración una imagen (<code>image</code>) del bucle <code>* ngFor</code></td>
+</tr>
+</table>
 </div>
-<div class="paragraph">
-<p>Si dentro del <code>&lt;li&gt;</code> que muestra cada héroe añadimos este código, estamos indicando que aplique la clase CSS <code>selected</code> si el héroe <code>h</code> es el héroe seleccionado.</p>
 </div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="trueel-componente-para-la-imagen"><a class="anchor" href="#trueel-componente-para-la-imagen"></a>6.2.5. El componente para la imagen</h4>
+<div class="paragraph">
+<p>El componente para la imagen recibe de <code>image-list.component.html</code> una propiedad de entrada (<code>[image]</code>) con un decorador <code>@Input</code>. Por tanto, el componente tendrá que importar <code>Input</code> de <code>@angular/core</code>.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 6. <code>image.component.ts</code></div>
+<div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>[class.selected]="hero === selectedHero"</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>A continuación se muestra cómo quedaría el fragmento entero en el que también hemos añadido el estilo para la lista, y mostramos para cada héroe su <code>id</code> y el nombre.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>&lt;ul class = "heroes"&gt;
-	&lt;li *ngFor="let h of heroes" [class.selected]="h === selectedHero" (click)="onSelect(h)"&gt;
-		&lt;span class = "badge"&gt;{{h.id}}&lt;/span&gt;{{h.name}}
-	&lt;/li&gt;
-&lt;/ul&gt;</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="truemisc"><a class="anchor" href="#truemisc"></a>9. Misc</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="trueuso-de-templates-directamente"><a class="anchor" href="#trueuso-de-templates-directamente"></a>9.1. Uso de templates directamente</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>import { Component } from '@angular/core';
+<pre class="highlightjs highlight"><code>import { Component, OnInit, Input } from '@angular/core'; <i class="conum" data-value="1"></i><b>(1)</b>
+import { Image } from '../../models/image'; <i class="conum" data-value="2"></i><b>(2)</b>
 
 @Component({
-  selector: 'app-root',
-  template: ` <i class="conum" data-value="1"></i><b>(1)</b>
-  &lt;h1&gt;
-  {{title}}
-  &lt;/h1&gt;
-  `,
-//  templateUrl: './app.component.html', <i class="conum" data-value="2"></i><b>(2)</b>
-  styleUrls: ['./app.component.css']
+  selector: 'app-image',
+  templateUrl: './image.component.html',
+  styleUrls: ['./image.component.css']
 })
-export class AppComponent {
-  title = 'app';
+export class ImageComponent implements OnInit {
+  @Input() image: Image; <i class="conum" data-value="3"></i><b>(3)</b>
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
 }</code></pre>
 </div>
 </div>
@@ -1480,19 +1604,37 @@ export class AppComponent {
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Creamos el template directamente</td>
+<td>Importación de Input</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>No cargamos el template desde una URL</td>
+<td>Importación de la clase de la imagen para poder usarla</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Propiedad de entrada <code>image</code> enviada desde <code>image-list.component.html</code></td>
 </tr>
 </table>
 </div>
 </div>
-<div class="sect2">
-<h3 id="trueinterpolaci-n-no-viva"><a class="anchor" href="#trueinterpolaci-n-no-viva"></a>9.2. Interpolación no viva</h3>
+</div>
+</div>
+<div class="sect3">
+<h4 id="truepresentaci-n-de-la-imagen"><a class="anchor" href="#truepresentaci-n-de-la-imagen"></a>6.2.6. Presentación de la imagen</h4>
 <div class="paragraph">
-<p>Permite la presentación de variables de forma estática.</p>
+<p>Ya sólo queda usar las interpolación para presentar los datos de ima imagen. Esto lo haremos accediendo a la propiedad <code>imageURL</code> de <code>image</code>.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 7. <code>image.component.html</code></div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>&lt;a href = "#"&gt;
+    &lt;div class = "col-md-3 col-sm-4 col-xs-6"&gt;&lt;img class="img-responsive" src="{{image.imageURL}}" /&gt;&lt;/div&gt;
+&lt;/a&gt;</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1502,113 +1644,18 @@ export class AppComponent {
 </td>
 <td class="content">
 <div class="paragraph">
-<p>En la interpolación no viva la asignación de valores sólo se realiza una vez y no admite cambios.</p>
+<p>Como los estilos para las imágenes estaban en <code>gallery.component.css</code> las imágenes han perdido su estilo. Basta con mover los estilos definidos a <code>image.component.css</code>.</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>import { Component } from '@angular/core';
-
-let myVar = "Angular rules!!" <i class="conum" data-value="1"></i><b>(1)</b>
-
-@Component({
-  selector: 'app-root',
-  template: `
-  &lt;h1&gt;
-  {{title}}
-  &lt;/h1&gt;
-  &lt;h2&gt;
-  ${myVar} <i class="conum" data-value="2"></i><b>(2)</b>
-  &lt;/h2&gt;
-  `,
-//  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
-})
-export class AppComponent {
-  title = 'app';
-}</code></pre>
 </div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Declaración de la variable</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Uso (interpolación) de la variable</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Debemos dejar de usar <code>var</code> para pasar a usar <code>let</code> para variables y <code>const</code> para constantes. <code>var</code> produce mucha confusión cuando usamos bloques.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Uso de <code>var</code></th>
-<th class="tableblock halign-left valign-top">Uso de <code>let</code></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>  var saludo = "Hola";
-
-  {
-  	var saludo = "Adios";
-  }
-
-  console.log(saludo);</code></pre>
-</div>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>  let saludo = "Hola";
-
-  {
-  	let saludo = "Adios";
-  }
-
-  console.log(saludo);</code></pre>
-</div>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>saludo</code> devolvería <code>Adios</code>, el último valor asignado</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>saludo</code> devolvería <code>Hola</code> porque se ignora la declaración en un ámbito interno.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">El uso de <code>var</code> permite la declaración de una variables después de su uso. El intéreprete mueve la declaración antes de su primer uso.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">El uso de <code>let</code> no permite declarar una variable después de su uso.</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="truereferencias"><a class="anchor" href="#truereferencias"></a>10. Referencias</h2>
+<h2 id="truereferencias"><a class="anchor" href="#truereferencias"></a>7. Referencias</h2>
 <div class="sectionbody">
 <div class="ulist bibliography">
 <ul class="bibliography">
@@ -1622,7 +1669,7 @@ export class AppComponent {
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-03-11 11:00:17 CET
+Last updated 2018-03-13 11:17:40 CET
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
