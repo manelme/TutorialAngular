@@ -46,12 +46,17 @@ Resumen del curso de OpenWwebinars.
 
 * Las aplicaciones Angular se desarrollan en TypeScript, aunque admiten otros lenguajes. TypeScript es un superconjunto tipado de JavaScript que se compila a JavaScript plano.
 
+[NOTE]
+====
+En la https://www.typescriptlang.org/index.html[web oficial de Typestscript] existe un https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html[breve tutorial a TypeScript]. El https://www.typescriptlang.org/docs/handbook/basic-types.html[handbook de TypeScript] también es un buen punto de referencia ofreciendo gran cantidad de ejemplos.
+====
+
 === Versiones de Angular
 
 * Angular 1 o AngularJS (2010)
 * Angular 2 (2016). Incoroporó gran cantidad de cambios respecto a AngularJS. Los proyectos de AngularJS no son válidos en Angular 2.
 * Angular 4 (Marzo 2017). Incorpora algunas características nuevas respeto a Angular 2. En este caso sí hay compatibilidad.
-* Angular 5 (Noviembre 2017). Nueva versión con nuevas características manteniendo compatibilidad.
+* Angular 5 (Noviembre 2017). Nue<va versión con nuevas características manteniendo compatibilidad.
 
 [NOTE]
 ====
@@ -667,7 +672,7 @@ Para presentar la lista de imágenes nos valdremos de la directiva `* ngFor`
 
 .Directiva * ngFor
 ****
-La directiva `ngFor` instancia una plantilla una vez por cada elemento de un iterable.
+La directiva `*ngFor` (no olvidar el asterisco) instancia una plantilla una vez por cada elemento de un iterable.
 
 [source]
 ----
@@ -750,12 +755,304 @@ Ya sólo queda usar las interpolación para presentar los datos de ima imagen. E
 Como los estilos para las imágenes estaban en `gallery.component.css` las imágenes han perdido su estilo. Basta con mover los estilos definidos a `image.component.css`.
 ====
 
+### Mejora de la aplicación. Creación de un servicio
 
+El problema que tiene actualmente la aplicación de galería de imágenes es que el componente de galería de imágenes sabe demasiado acerca de la cómo construir la lista de imágenes. Es más, tiene encargado la construcción de la lista de imágenes a partir de sus datos.
 
+La solución está en delegar el trabajo de crear la lista de imágenes a otro componente y crear lo que se conoce como un _servicio_. Un servicio nos va a permitir ocultar los detalles acerca de cómo recuperar datos y compartir datos entre componentes de nuestra aplicación.
 
+Desde el directorio base del proyecto crearemos un servicio denominado `image` con Angular CLI. Esto creará los archivos TypeScript (`image.service.ts` e `image.service.spec.ts`) para el servicio dentro de `services`
 
+[source]
+----
+ng generate service image --module=app <1>
+----
+<1> Creación del servicio `image` y actualización de `app.module.ts` con los datos del servicio `image`.
 
+[WARNING]
+====
+Para que este servicio pueda ser más adelante siguiendo el patrón de _Inyección de dependencias_ el servicio tiene que ser importado en `app.module.ts` y registrado en la lista de `providers`.
+====
 
+.Fragmento de `app.module.ts` tras definir el servicio `image`
+====
+[source]
+----
+....
+import { ImageService } from './image.service';
+....
+@NgModule({
+  ....
+  providers: [ImageService],
+  ....
+})
+....
+----
+====
+
+.`image.service.ts`
+====
+[source]
+----
+import { Injectable } from '@angular/core';
+import { Image } from './models/image'; <1> Importar modelo imagen
+
+@Injectable() <2>
+export class ImageService {
+  images: Image[] = [ <3>
+    {'imageURL':'https://images.pexels.com/photos/9051/pexels-photo.jpg?h=150', 'author':'Oliur Rahman', 'website':'http://photos.oliur.com'},
+    {'imageURL':'https://images.pexels.com/photos/23475/pexels-photo.jpg?h=150', 'author':'Donald Tong', 'website':''},
+    {'imageURL':'https://images.pexels.com/photos/9050/pexels-photo.jpg?h=150', 'author':'Pixabay', 'website':'http://pixabay.com'},
+    {'imageURL':'https://images.pexels.com/photos/754998/pexels-photo-754998.jpeg?h=150', 'author':'Tarun Netha Amballa', 'website':''}
+  ];
+  constructor() { }
+
+  getImages() { <4>
+    return this.images;
+  }
+}
+----
+<1> Importar modelo `image` 
+<2> El decorador `@Injectable` indica que este servicio puede tener dependencias inyectadas.
+<3> Inicializar array de imágenes
+<4> Creación de un método que devuelva el array de imágenes
+====
+
+.`image-list.component.ts`
+====
+[source]
+----
+import { Component, OnInit } from '@angular/core';
+import { Image } from '../../models/image';
+import { ImageService } from '../../image.service'; <1>
+
+@Component({
+  selector: 'app-image-list',
+  templateUrl: './image-list.component.html',
+  styleUrls: ['./image-list.component.css']
+})
+export class ImageListComponent implements OnInit {
+  images: Image[] = []; <2>
+
+  constructor(private imageService: ImageService) { } <3>
+
+  ngOnInit() {
+    this.images = this.imageService.getImages(); <4>
+  }
+
+}
+----
+<1> Importación del componente del servicio
+<2> Declaración del array de imágenes
+<3> Modiifcación del constructor para incluir el servicio de imágenes
+<4> Inicialización del array de imágenes con lo que devuelva el servicio
+====
+
+De esta forma hemos conseguido aislar el componente de lista de imágenes de los detalles de cómo obtener la lista de imágenes. Ahora, el componente sólo se limita a usar el servicio de imágenes para obtener la lista de imágenes.
+
+==== Mostrando los detalles de una imagen
+
+En este apartado veremos cómo implementar la funcionalidad de mostrar los detalles de una imagen al hacer clic sobre ella.
+
+. Añadir el evento de clic a `image-list.component.html`. Al hacer clic sobre una imagen llamaremos a un método `onSelect()` pasándole como argumento la imagen seleccionada
+
++
+[source]
+----
+<app-image *ngFor="let image of images" [image]="image" (click)="onSelect(image)"></app-image>
+----
+
+. Añadir a `image-list.component.ts` una variable de instancia de tipo `Image` denominada `selectedImage`. Esta variable representa la imagen seleccionada de la lista
+
++ 
+[source]
+----
+....
+export class ImageListComponent implements OnInit {
+  images: Image[] = [];
+  selectedImage: Image;
+  ....
+}
+----
+
+. Añadir a `image-list.component.ts` el método `onSelect()` que inicialice `selectedImage` con la imagen seleccionada.
+
++ 
+[source]
+----
+  onSelect(image: Image) {
+    this.selectedImage = image;
+  }
+----
+
+. Añadir en la parte superior de `image-list.component.html` el selector de la imagen de detalle (`app-image-detail`) para mostrar el detalle de las imágenes en la parte superior de la lista de imágenes. Este elemento pasará al componente `ImageDetail` la imagen seleccionada mediante `[selectedImage]` que será recibida mediante `@Input()`.
+
++
+[source]
+----
+<app-image-detail [selectedImage]="selectedImage"></app-image-detail>
+----
+
+. Añadir a `image-detail.component.ts` la recepción de `selectedImage`.
+
++
+[source]
+----
+import { Component, OnInit, Input } from '@angular/core'; <1>
+import { Image } from '../../models/image'; <2>
+
+@Component({
+  selector: 'app-image-detail',
+  templateUrl: './image-detail.component.html',
+  styleUrls: ['./image-detail.component.css']
+})
+export class ImageDetailComponent implements OnInit {
+  @Input() selectedImage: Image; <3>
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+}
+----
+<1> Importar `Input`
+<2> Importar el modelo de la imagen para poder usarlo
+<3> Variable de instancia creada a partir del valor recibido
+
+. Mostrar los detalles en `image-detail.component.html`
+
++
+[source]
+----
+<div class="container image-detail"> <1>
+  <div class = "row">
+    <div class = "col-sm-6 col-xs-12">
+      <img class="img-responsive" src="{{selectedImage.imageURL}}" /> <2>
+    </div>
+    <div class = "col-sm-6 col-xs-12">
+      <h1>{{selectedImage.author}}</h1> <3>
+      <h2><a href = "{{selectedImage.website}}">{{selectedImage.website}}</a></h2>
+    </div>
+  </div>
+</div>
+----
+<1> El estilo `image-detail` lo definiremos en la hoja de estilos del componente de detalle.
+<2> Mostrar la imagen seleccionada
+<3> Mostrar otras propiedades de la imagen seleccionada
+
+.`image-detail.css`
+====
+[source]
+----
+.image-detail {
+    margin: 20px auto;
+}
+----
+====
+
+=== Routing
+
+Con routing podemos dividir una aplicación en áreas que podemos llamar páginas, e indicar a Angular qué paginas mostrar en función de la ruta especificada.
+
+Las aplicaciones Angular son SPA (Single Page Applications). En realidad sólo existe una página aunque tengamos la sensación de estar navegando por páginas diferentes. Routing es la técnica que lo permite.
+
+Como ejemplo, generemos dos componentes para asociarlos a los elementos de menú `Sobre` y `Contactar`. Estos serán los componentes `about` y `contact` que generaremos con Angular CLI tal y como se muestra a continuación. A cada uno le asignaremos una ruta.
+
+[source]
+----
+ng generate component about
+ng generate component contact
+----
+
+Las rutas se definen en `app.module.ts`. 
+
+.`app.module.ts`
+====
+[source]
+----
+...
+
+import { Routes, RouterModule } from '@angular/router'; <1>
+import { ModuleWithProviders } from '@angular/core';
+...
+const appRoutes: Routes = [
+  {path: '', redirectTo: '/gallery', pathMatch: 'full'}, <2>
+  {path: 'gallery', component: GalleryComponent}, <3>
+  {path: 'about', component: AboutComponent},
+  {path: 'contact', component: ContactComponent}
+];
+
+@NgModule({
+  ...
+  imports: [
+    RouterModule.forRoot(appRoutes), <4>
+    BrowserModule
+  ],
+  ...
+})
+...
+----
+<1> Importación de módulos necesarios para el routing
+<2> Redirigir el path vacío a la galería
+<3> Establecer los componentes a cargar en cada ruta
+<4> Modificación de los imports del módulo
+====
+
+A continuación, debemos indicar dónde colocar el contenido de cada ruta. Para ello, Angular cuenta con el tag `<router-outlet>`. En nuestro caso, cambiaremos el tag en `app.component.html` para que muestre en la página principal el contenido de la ruta seleccionada.
+
+.`app.component.html`
+====
+[source]
+----
+<app-navbar></app-navbar>
+<router-outlet></router-outlet>
+----
+====
+
+En el componente de la barra de navegación `navbar.component.html` debemos hacer varios cambios.
+
+* Los atributos `href` serán sustituidos por `[routerLink]` para convertirlos en links Angular y que usen las rutas definidas.
+* Aplicar el estilo de elemento activo del menú a la opción seleccionada:
+
+[source]
+----
+      <li routerLinkActive="active"> <1>
+        <a class="nav-link" [routerLink]="['/']">Inicio <span class="sr-only">(current)</span></a> <2>
+      </li>
+      <li routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/about']">Sobre</a> <3>
+      </li>
+      <li routerLinkActive="active">
+          <a class="nav-link" [routerLink]="['/contact']">Contactar</a> <4>
+      </li>
+----
+<1> Utilizaremos `routerLinkActive` en cada link para aplicarle un estilo diferente al link activo
+<2> Uso de `[routerLink]` para establecer la ruta de inicio
+<3> Uso de `[routerLink]` para establecer la ruta de `/about`
+<4> Uso de `[routerLink]` para establecer la ruta de `/contact`
+
+Por último, debemos hacer un último cambio en el componente `image.component.html`, ya que si hacemos clic sobre una imagen veremos que se recarga su página de detalle, pero desaparece al instante. Para ello, haremos dos cambios:
+
+* Eliminar el atributo `href` en el link de la imagen en `image.component.html`.
+
++
+[source]
+----
+<a> <1>
+    <div class = "col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src="{{image.imageURL}}" /></div>
+</a>
+----
+<1> Quitar el atributo `href` para que no se produzca una regarga de página al mostrar detalles
+
+* Añadir a los estilos de `image.component.css` este estilo
+
++
+[source]
+----
+a:hover {
+    cursor: pointer;
+}
+----
 
 == Referencias
 

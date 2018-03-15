@@ -450,6 +450,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#trueun-primer-prototipo">6.1. Un primer prototipo</a></li>
 <li><a href="#truemejora-de-la-aplicaci-n-separaci-n-de-datos-y-presentaci-n">6.2. Mejora de la aplicación. Separación de datos y presentación</a></li>
+<li><a href="#truemejora-de-la-aplicaci-n-creaci-n-de-un-servicio">6.3. Mejora de la aplicación. Creación de un servicio</a></li>
+<li><a href="#truerouting">6.4. Routing</a></li>
 </ul>
 </li>
 <li><a href="#truereferencias">7. Referencias</a></li>
@@ -492,6 +494,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>En la <a href="https://www.typescriptlang.org/index.html">web oficial de Typestscript</a> existe un <a href="https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html">breve tutorial a TypeScript</a>. El <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html">handbook de TypeScript</a> también es un buen punto de referencia ofreciendo gran cantidad de ejemplos.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="sect2">
 <h3 id="trueversiones-de-angular"><a class="anchor" href="#trueversiones-de-angular"></a>1.1. Versiones de Angular</h3>
 <div class="ulist">
@@ -506,7 +522,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Angular 4 (Marzo 2017). Incorpora algunas características nuevas respeto a Angular 2. En este caso sí hay compatibilidad.</p>
 </li>
 <li>
-<p>Angular 5 (Noviembre 2017). Nueva versión con nuevas características manteniendo compatibilidad.</p>
+<p>Angular 5 (Noviembre 2017). Nue&lt;va versión con nuevas características manteniendo compatibilidad.</p>
 </li>
 </ul>
 </div>
@@ -1515,7 +1531,7 @@ export class ImageListComponent implements OnInit {
 <div class="content">
 <div class="title">Directiva * ngFor</div>
 <div class="paragraph">
-<p>La directiva <code>ngFor</code> instancia una plantilla una vez por cada elemento de un iterable.</p>
+<p>La directiva <code>*ngFor</code> (no olvidar el asterisco) instancia una plantilla una vez por cada elemento de un iterable.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1652,6 +1668,460 @@ export class ImageComponent implements OnInit {
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="truemejora-de-la-aplicaci-n-creaci-n-de-un-servicio"><a class="anchor" href="#truemejora-de-la-aplicaci-n-creaci-n-de-un-servicio"></a>6.3. Mejora de la aplicación. Creación de un servicio</h3>
+<div class="paragraph">
+<p>El problema que tiene actualmente la aplicación de galería de imágenes es que el componente de galería de imágenes sabe demasiado acerca de la cómo construir la lista de imágenes. Es más, tiene encargado la construcción de la lista de imágenes a partir de sus datos.</p>
+</div>
+<div class="paragraph">
+<p>La solución está en delegar el trabajo de crear la lista de imágenes a otro componente y crear lo que se conoce como un <em>servicio</em>. Un servicio nos va a permitir ocultar los detalles acerca de cómo recuperar datos y compartir datos entre componentes de nuestra aplicación.</p>
+</div>
+<div class="paragraph">
+<p>Desde el directorio base del proyecto crearemos un servicio denominado <code>image</code> con Angular CLI. Esto creará los archivos TypeScript (<code>image.service.ts</code> e <code>image.service.spec.ts</code>) para el servicio dentro de <code>services</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>ng generate service image --module=app <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Creación del servicio <code>image</code> y actualización de <code>app.module.ts</code> con los datos del servicio <code>image</code>.</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Para que este servicio pueda ser más adelante siguiendo el patrón de <em>Inyección de dependencias</em> el servicio tiene que ser importado en <code>app.module.ts</code> y registrado en la lista de <code>providers</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock">
+<div class="title">Example 8. Fragmento de <code>app.module.ts</code> tras definir el servicio <code>image</code></div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>....
+import { ImageService } from './image.service';
+....
+@NgModule({
+  ....
+  providers: [ImageService],
+  ....
+})
+....</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="title">Example 9. <code>image.service.ts</code></div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>import { Injectable } from '@angular/core';
+import { Image } from './models/image'; &lt;1&gt; Importar modelo imagen
+
+@Injectable() <i class="conum" data-value="2"></i><b>(2)</b>
+export class ImageService {
+  images: Image[] = [ <i class="conum" data-value="3"></i><b>(3)</b>
+    {'imageURL':'https://images.pexels.com/photos/9051/pexels-photo.jpg?h=150', 'author':'Oliur Rahman', 'website':'http://photos.oliur.com'},
+    {'imageURL':'https://images.pexels.com/photos/23475/pexels-photo.jpg?h=150', 'author':'Donald Tong', 'website':''},
+    {'imageURL':'https://images.pexels.com/photos/9050/pexels-photo.jpg?h=150', 'author':'Pixabay', 'website':'http://pixabay.com'},
+    {'imageURL':'https://images.pexels.com/photos/754998/pexels-photo-754998.jpeg?h=150', 'author':'Tarun Netha Amballa', 'website':''}
+  ];
+  constructor() { }
+
+  getImages() { <i class="conum" data-value="4"></i><b>(4)</b>
+    return this.images;
+  }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Importar modelo <code>image</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>El decorador <code>@Injectable</code> indica que este servicio puede tener dependencias inyectadas.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Inicializar array de imágenes</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Creación de un método que devuelva el array de imágenes</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="title">Example 10. <code>image-list.component.ts</code></div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>import { Component, OnInit } from '@angular/core';
+import { Image } from '../../models/image';
+import { ImageService } from '../../image.service'; <i class="conum" data-value="1"></i><b>(1)</b>
+
+@Component({
+  selector: 'app-image-list',
+  templateUrl: './image-list.component.html',
+  styleUrls: ['./image-list.component.css']
+})
+export class ImageListComponent implements OnInit {
+  images: Image[] = []; <i class="conum" data-value="2"></i><b>(2)</b>
+
+  constructor(private imageService: ImageService) { } <i class="conum" data-value="3"></i><b>(3)</b>
+
+  ngOnInit() {
+    this.images = this.imageService.getImages(); <i class="conum" data-value="4"></i><b>(4)</b>
+  }
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Importación del componente del servicio</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Declaración del array de imágenes</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Modiifcación del constructor para incluir el servicio de imágenes</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Inicialización del array de imágenes con lo que devuelva el servicio</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>De esta forma hemos conseguido aislar el componente de lista de imágenes de los detalles de cómo obtener la lista de imágenes. Ahora, el componente sólo se limita a usar el servicio de imágenes para obtener la lista de imágenes.</p>
+</div>
+<div class="sect3">
+<h4 id="truemostrando-los-detalles-de-una-imagen"><a class="anchor" href="#truemostrando-los-detalles-de-una-imagen"></a>6.3.1. Mostrando los detalles de una imagen</h4>
+<div class="paragraph">
+<p>En este apartado veremos cómo implementar la funcionalidad de mostrar los detalles de una imagen al hacer clic sobre ella.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Añadir el evento de clic a <code>image-list.component.html</code>. Al hacer clic sobre una imagen llamaremos a un método <code>onSelect()</code> pasándole como argumento la imagen seleccionada</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>&lt;app-image *ngFor="let image of images" [image]="image" (click)="onSelect(image)"&gt;&lt;/app-image&gt;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Añadir a <code>image-list.component.ts</code> una variable de instancia de tipo <code>Image</code> denominada <code>selectedImage</code>. Esta variable representa la imagen seleccionada de la lista</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>....
+export class ImageListComponent implements OnInit {
+  images: Image[] = [];
+  selectedImage: Image;
+  ....
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Añadir a <code>image-list.component.ts</code> el método <code>onSelect()</code> que inicialice <code>selectedImage</code> con la imagen seleccionada.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>  onSelect(image: Image) {
+    this.selectedImage = image;
+  }</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Añadir en la parte superior de <code>image-list.component.html</code> el selector de la imagen de detalle (<code>app-image-detail</code>) para mostrar el detalle de las imágenes en la parte superior de la lista de imágenes. Este elemento pasará al componente <code>ImageDetail</code> la imagen seleccionada mediante <code>[selectedImage]</code> que será recibida mediante <code>@Input()</code>.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>&lt;app-image-detail [selectedImage]="selectedImage"&gt;&lt;/app-image-detail&gt;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Añadir a <code>image-detail.component.ts</code> la recepción de <code>selectedImage</code>.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>import { Component, OnInit, Input } from '@angular/core'; <i class="conum" data-value="1"></i><b>(1)</b>
+import { Image } from '../../models/image'; <i class="conum" data-value="2"></i><b>(2)</b>
+
+@Component({
+  selector: 'app-image-detail',
+  templateUrl: './image-detail.component.html',
+  styleUrls: ['./image-detail.component.css']
+})
+export class ImageDetailComponent implements OnInit {
+  @Input() selectedImage: Image; <i class="conum" data-value="3"></i><b>(3)</b>
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Importar <code>Input</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Importar el modelo de la imagen para poder usarlo</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Variable de instancia creada a partir del valor recibido</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Mostrar los detalles en <code>image-detail.component.html</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>&lt;div class="container image-detail"&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+  &lt;div class = "row"&gt;
+    &lt;div class = "col-sm-6 col-xs-12"&gt;
+      &lt;img class="img-responsive" src="{{selectedImage.imageURL}}" /&gt; <i class="conum" data-value="2"></i><b>(2)</b>
+    &lt;/div&gt;
+    &lt;div class = "col-sm-6 col-xs-12"&gt;
+      &lt;h1&gt;{{selectedImage.author}}&lt;/h1&gt; <i class="conum" data-value="3"></i><b>(3)</b>
+      &lt;h2&gt;&lt;a href = "{{selectedImage.website}}"&gt;{{selectedImage.website}}&lt;/a&gt;&lt;/h2&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>El estilo <code>image-detail</code> lo definiremos en la hoja de estilos del componente de detalle.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Mostrar la imagen seleccionada</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Mostrar otras propiedades de la imagen seleccionada</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+<div class="exampleblock">
+<div class="title">Example 11. <code>image-detail.css</code></div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>.image-detail {
+    margin: 20px auto;
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="truerouting"><a class="anchor" href="#truerouting"></a>6.4. Routing</h3>
+<div class="paragraph">
+<p>Con routing podemos dividir una aplicación en áreas que podemos llamar páginas, e indicar a Angular qué paginas mostrar en función de la ruta especificada.</p>
+</div>
+<div class="paragraph">
+<p>Las aplicaciones Angular son SPA (Single Page Applications). En realidad sólo existe una página aunque tengamos la sensación de estar navegando por páginas diferentes. Routing es la técnica que lo permite.</p>
+</div>
+<div class="paragraph">
+<p>Como ejemplo, generemos dos componentes para asociarlos a los elementos de menú <code>Sobre</code> y <code>Contactar</code>. Estos serán los componentes <code>about</code> y <code>contact</code> que generaremos con Angular CLI tal y como se muestra a continuación. A cada uno le asignaremos una ruta.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>ng generate component about
+ng generate component contact</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Las rutas se definen en <code>app.module.ts</code>.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 12. <code>app.module.ts</code></div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>...
+
+import { Routes, RouterModule } from '@angular/router'; <i class="conum" data-value="1"></i><b>(1)</b>
+import { ModuleWithProviders } from '@angular/core';
+...
+const appRoutes: Routes = [
+  {path: '', redirectTo: '/gallery', pathMatch: 'full'}, <i class="conum" data-value="2"></i><b>(2)</b>
+  {path: 'gallery', component: GalleryComponent}, <i class="conum" data-value="3"></i><b>(3)</b>
+  {path: 'about', component: AboutComponent},
+  {path: 'contact', component: ContactComponent}
+];
+
+@NgModule({
+  ...
+  imports: [
+    RouterModule.forRoot(appRoutes), <i class="conum" data-value="4"></i><b>(4)</b>
+    BrowserModule
+  ],
+  ...
+})
+...</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Importación de módulos necesarios para el routing</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Redirigir el path vacío a la galería</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Establecer los componentes a cargar en cada ruta</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Modificación de los imports del módulo</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>A continuación, debemos indicar dónde colocar el contenido de cada ruta. Para ello, Angular cuenta con el tag <code>&lt;router-outlet&gt;</code>. En nuestro caso, cambiaremos el tag en <code>app.component.html</code> para que muestre en la página principal el contenido de la ruta seleccionada.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 13. <code>app.component.html</code></div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>&lt;app-navbar&gt;&lt;/app-navbar&gt;
+&lt;router-outlet&gt;&lt;/router-outlet&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>En el componente de la barra de navegación <code>navbar.component.html</code> debemos hacer varios cambios.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Los atributos <code>href</code> serán sustituidos por <code>[routerLink]</code> para convertirlos en links Angular y que usen las rutas definidas.</p>
+</li>
+<li>
+<p>Aplicar el estilo de elemento activo del menú a la opción seleccionada:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>      &lt;li routerLinkActive="active"&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+        &lt;a class="nav-link" [routerLink]="['/']"&gt;Inicio &lt;span class="sr-only"&gt;(current)&lt;/span&gt;&lt;/a&gt; <i class="conum" data-value="2"></i><b>(2)</b>
+      &lt;/li&gt;
+      &lt;li routerLinkActive="active"&gt;
+        &lt;a class="nav-link" [routerLink]="['/about']"&gt;Sobre&lt;/a&gt; <i class="conum" data-value="3"></i><b>(3)</b>
+      &lt;/li&gt;
+      &lt;li routerLinkActive="active"&gt;
+          &lt;a class="nav-link" [routerLink]="['/contact']"&gt;Contactar&lt;/a&gt; <i class="conum" data-value="4"></i><b>(4)</b>
+      &lt;/li&gt;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Utilizaremos <code>routerLinkActive</code> en cada link para aplicarle un estilo diferente al link activo</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Uso de <code>[routerLink]</code> para establecer la ruta de inicio</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Uso de <code>[routerLink]</code> para establecer la ruta de <code>/about</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Uso de <code>[routerLink]</code> para establecer la ruta de <code>/contact</code></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Por último, debemos hacer un último cambio en el componente <code>image.component.html</code>, ya que si hacemos clic sobre una imagen veremos que se recarga su página de detalle, pero desaparece al instante. Para ello, haremos dos cambios:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Eliminar el atributo <code>href</code> en el link de la imagen en <code>image.component.html</code>.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>&lt;a&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+    &lt;div class = "col-md-3 col-sm-4 col-xs-6"&gt;&lt;img class="img-responsive" src="{{image.imageURL}}" /&gt;&lt;/div&gt;
+&lt;/a&gt;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Quitar el atributo <code>href</code> para que no se produzca una regarga de página al mostrar detalles</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Añadir a los estilos de <code>image.component.css</code> este estilo</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>a:hover {
+    cursor: pointer;
+}</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1669,7 +2139,7 @@ export class ImageComponent implements OnInit {
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-03-13 11:17:40 CET
+Last updated 2018-03-15 06:44:27 CET
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
