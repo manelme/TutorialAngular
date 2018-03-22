@@ -27,11 +27,14 @@ Manuel Torres <mtorres@ual.es>
 [abstract]
 == Resumen
 
-Resumen del curso de OpenWwebinars.
+Resumen del tutorial de Angular.
 
 .Objetivos
 
-* Aprender a programar con Angular.
+* Conocer la arquitectura de las aplicaciones Angular
+* Aprender a utilizar los componentes y directivas básicas de Angular para crear una aplicación web Angular.
+* Aprender a crear y usar servicios
+* Aprender a manejar las rutas de una aplicación
 
 // Entrar en modo numerado de apartados
 :numbered:
@@ -1054,9 +1057,6 @@ a:hover {
 }
 ----
 
-== Referencias
 
-[bibliography]
-- sad
 
 
